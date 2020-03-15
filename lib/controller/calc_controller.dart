@@ -70,7 +70,7 @@ class CalcController {
   }
 
   String _calculate(String calc) {
-    final String pattern = r'(\G?\d+\.?\b\d*)([ASMD])(\G?\d+\.?\b\d*)';
+    final String pattern = r'(\G?\d+\.?\d*)([ASMD])(\G?\d+\.?\b\d*)';
     final RegExpMatch match = RegExp(pattern).allMatches(calc).elementAt(0);
 
     final String o = match.group(2);
@@ -112,6 +112,7 @@ class CalcController {
       _equation = _item.valueFixed;
       _item = CalcItem.asOperator(_keysTable[key]);
     } else if (_item.isNumber) {
+      _item.consolidateValue(_kPrecisionSize);
       _equationDisplay += _item.valueAsText;
       _equation += _item.valueFixed;
       _item = CalcItem.asOperator(_keysTable[key]);
@@ -145,9 +146,8 @@ class CalcController {
   void _fnUndo() {}
 
   static Match _nextOperation(String calc) {
-    final String pattern = _hasPriorityOperation(calc)
-        ? r'\G?\d+\.?\b\d*[MD]\G?\d+\.?\b\d*'
-        : r'\G?\d+\.?\b\d*[AS]\G?\d+\.?\b\d*';
+    final String pattern =
+        _hasPriorityOperation(calc) ? r'G?\d+\.?\d*[MD]G?\d+\.?\b\d*' : r'G?\d+\.?\d*[AS]G?\d+\.?\b\d*';
     return RegExp(pattern).firstMatch(calc);
   }
 
@@ -157,6 +157,7 @@ class CalcController {
 
   static num _toNum(String value) => num.parse(value.replaceFirstMapped(RegExp(r'^G'), (m) => '-'));
 
-  static String _toStringPrecision(num value) =>
-      num.parse(value.toStringAsPrecision(_kPrecisionSize)).toString();
+  static String _toStringPrecision(num value) => num.parse(value.toStringAsPrecision(_kPrecisionSize))
+      .toString()
+      .replaceFirstMapped(RegExp(r'\.0+$'), (_) => '');
 }
