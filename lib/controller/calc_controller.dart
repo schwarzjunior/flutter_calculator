@@ -3,8 +3,6 @@ import 'package:flutter_calculator_3/models/calc_key_data.dart';
 
 typedef _CalcFn = num Function(num, num);
 
-const int _kPrecisionSize = 12;
-
 const String _SIGN = 'G';
 const String _EQUALS = 'E';
 const String _ADD = 'A';
@@ -77,7 +75,7 @@ class CalcController {
     final String a = match.group(1);
     final String b = match.group(3);
 
-    final num result = _operationsTable[o](_toNum(a), _toNum(b));
+    final num result = _operationsTable[o](_expToNum(a), _expToNum(b));
 
     return _toStringPrecision(result);
   }
@@ -93,31 +91,40 @@ class CalcController {
   }
 
   void _handleNumber(CalcKeyData key) {
-    if (_item.isResult) {
-      _equationDisplay = '';
-      _equation = '';
-      _item = CalcItem.asNumber(key.key);
-    } else if (_item.isOperator) {
+    if (_item.isOperator) {
+      // adicionando o operador do item atual a equacao
       _equationDisplay += _item.valueAsText;
       _equation += _item.valueFixed;
       _item = CalcItem.asNumber(key.key);
+    } else if (_item.isResult) {
+      // iniciando um novo calculo
+      _fnClear();
+      _item = CalcItem.asNumber(key.key);
     } else {
+      // item atual eh um numero, processando o novo valor
       _item.process(key.key);
     }
   }
 
   void _handleOperator(CalcKeyData key) {
-    if (_item.isResult) {
-      _equationDisplay = _item.valueAsText;
-      _equation = _item.valueFixed;
-      _item = CalcItem.asOperator(_keysTable[key]);
-    } else if (_item.isNumber) {
-      _item.consolidateValue(_kPrecisionSize);
-      _equationDisplay += _item.valueAsText;
-      _equation += _item.valueFixed;
+    if (_item.isNumber) {
+      // adicionando o numero do item atual a equacao
+      if (_item.isResult) {
+        // substituindo a equacao pelo resultado do calculo anterior em item
+        _equationDisplay = _item.valueAsText;
+        _equation = _item.valueFixed;
+      } else {
+        // ajustando o numero atual antes de adiciona-lo a equacao
+        _item.consolidateValue();
+        // adicionando o numero atual a equacao
+        _equationDisplay += _item.valueAsText;
+        _equation += _item.valueFixed;
+      }
+      // criando o novo item com o operador
       _item = CalcItem.asOperator(_keysTable[key]);
     } else {
-      _item.process(key.key);
+      // item atual ja eh um operador, e sera substituido pelo novo
+      _item.process(_keysTable[key]);
     }
   }
 
@@ -143,21 +150,27 @@ class CalcController {
     _item = CalcItem.asNumber();
   }
 
-  void _fnUndo() {}
+  void _fnUndo() {
+    _item.undo();
+  }
 
+  /// Retorna o proximo calculo da equacao a ser executado, respeitando as prioridades
+  /// dos operadores de multiplicacao e divisao, sobre a adicao e a subtracao.
   static Match _nextOperation(String calc) {
-    final String pattern =
-        _hasPriorityOperation(calc) ? r'G?\d+\.?\d*[MD]G?\d+\.?\b\d*' : r'G?\d+\.?\d*[AS]G?\d+\.?\b\d*';
+    // Checa se existe algum operador prioritario na equacao
+    final bool hasPriority = RegExp(r'[MD]').hasMatch(calc);
+
+    final String pattern = hasPriority ? r'G?\d+\.?\d*[MD]G?\d+\.?\b\d*' : r'G?\d+\.?\d*[AS]G?\d+\.?\b\d*';
     return RegExp(pattern).firstMatch(calc);
   }
 
-  static bool _hasPriorityOperation(String calc) {
-    return RegExp(r'[MD]').hasMatch(calc);
-  }
+  /// Converte uma expressao, [value], para o seu valor numerico correspondente,
+  /// substituindo o caractere 'G' pelo sinal de menos (-) quando necessario.
+  static num _expToNum(String value) => num.parse(value.replaceFirstMapped(RegExp(r'^G'), (m) => '-'));
 
-  static num _toNum(String value) => num.parse(value.replaceFirstMapped(RegExp(r'^G'), (m) => '-'));
-
-  static String _toStringPrecision(num value) => num.parse(value.toStringAsPrecision(_kPrecisionSize))
+  /// Converte o num [value] em um string, removendo o ponto decimal e/ou o(s) zero(s) do seu
+  /// final quando o valor de [value] eh um inteiro.
+  static String _toStringPrecision(num value) => num.parse(value.toStringAsPrecision(kPrecisionSize))
       .toString()
       .replaceFirstMapped(RegExp(r'\.0+$'), (_) => '');
 }

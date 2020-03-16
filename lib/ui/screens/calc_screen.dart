@@ -3,6 +3,7 @@ import 'package:flutter_calculator_3/blocs/calc_bloc.dart';
 import 'package:flutter_calculator_3/blocs/calc_state.dart';
 import 'package:flutter_calculator_3/ui/widgets/calc_display.dart';
 import 'package:flutter_calculator_3/ui/widgets/calc_key_pad.dart';
+import 'package:flutter_calculator_3/ui/widgets/theme/app_theme.dart';
 
 class CalcScreen extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _CalcScreenState extends State<CalcScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff2d2d2d),
+      backgroundColor: AppTheme.of(context).backgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

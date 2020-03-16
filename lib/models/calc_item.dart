@@ -1,3 +1,5 @@
+const int kPrecisionSize = 12;
+
 const String _pMinusSign = r'\-*';
 const String _pOperatorsAndSign = r'[ASMDG]';
 const String _pEndsWithDecimal = r'\.$';
@@ -26,10 +28,13 @@ class CalcItem {
     }
   }
 
+  /// Cria um novo [CalcItem] representando um numero.
   factory CalcItem.asNumber([String value = '0']) => CalcItem._(value, false);
 
+  /// Cria um novo [CalcItem] representando o resultado de um calculo.
   factory CalcItem.asResult(String value) => CalcItem._(value, true);
 
+  /// Cria um novo [CalcItem] representando um operador.
   factory CalcItem.asOperator(String value) => CalcItem._(value, false);
 
   String _value;
@@ -50,31 +55,44 @@ class CalcItem {
   /// (removendo ponto decimal do seu final, caso terminar com este).
   String get valueFixed => isOperator ? _value : value.replaceFirst(RegExp(_pEndsWithDecimal), '');
 
+  /// Checa se o valor do item representa um numero, permitindo que
+  /// este termine com um ponto decimal.
   bool get isNumber => _isNumber(_value, true);
 
+  /// Checa se o valor do item representa um operador.
   bool get isOperator => _isOperator(_value);
 
+  /// Retorna true se o valor do item representa um numero e for negativo.
   bool get isNegative => _isNegative;
 
+  /// Retorna true se o valor do item representa o resultado de um calculo.
   bool get isResult => _isResult;
 
   /// Consolida o valor do item.
   ///
-  /// Se o item for um numero, e for um inteiro, remove o ponto decimal e os zeros seguintes.
-  void consolidateValue(int precisionSize) => _value = !isNumber ? _value : _consolidateNumber(valueFixed);
+  /// Se o item for um numero inteiro, remove o ponto decimal e os zeros seguintes.
+  void consolidateValue() => _value = !isNumber ? _value : _consolidateNumber(_value);
 
+  /// Processa o valor de [value].
+  ///
+  /// - Se [value] for um numero, atualiza o valor do item atual com o novo valor.
+  /// - Se [value] for um operador, substitui o valor do item atual pelo novo.
   void process(String value) {
     if (isNumber) {
       if (value == '.') {
         if (!RegExp(_pDecimal).hasMatch(_value)) {
+          // So adiciona o ponto decimal caso o valor do item atual ja nao contiver um
           _value += value;
         }
       } else if (_value == '0') {
+        // Se o valor do item atual for zero, este sera completamente substituido pelo novo
         _value = value;
       } else {
+        // Adicionando o novo valor ao item atual
         _value += value;
       }
     } else if (isOperator) {
+      // Substituindo o operador do item atual pelo novo
       _changeOperator(value);
     }
   }
@@ -85,7 +103,15 @@ class CalcItem {
   /// Se [_value] for um operador, modifica o operador de [_value].
   void _changeOperator(String value) => _value = (isOperator && _isOperator(value)) ? value : _value;
 
-  void undo() {}
+  void undo() {
+    if (isOperator) return;
+
+    if (isResult || _value.length == 1) {
+      _value = '0';
+    } else {
+      _value = _value.substring(0, _value.length - 1);
+    }
+  }
 
   /// Checa se [value] corresponde a um numero.
   static bool _isNumber(String value, bool allowEndsWithDecimal) {
@@ -98,8 +124,8 @@ class CalcItem {
     return RegExp(_pOperatorsFull).hasMatch(value);
   }
 
-  static String _consolidateNumber(String value, [int precisionSize = 12]) {
-    return num.parse(num.parse(value).toStringAsPrecision(precisionSize))
+  static String _consolidateNumber(String value) {
+    return num.parse(num.parse(value).toStringAsPrecision(kPrecisionSize))
         .toString()
         .replaceFirstMapped(RegExp(r'\.0+$'), (_) => '');
   }
