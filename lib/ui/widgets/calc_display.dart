@@ -8,7 +8,7 @@ class CalcDisplay extends StatelessWidget {
   final String equationText;
   final double height;
 
-  double get _margin => (height / 10.0);
+  double get _margin => (height / 20.0);
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +26,19 @@ class CalcDisplay extends StatelessWidget {
           color: appTheme.displayTheme.displayColor,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             Text(
               equationText ?? '',
-              // style: Theme.of(context).textTheme.title.copyWith(color: Colors.white54),
               style: appTheme.displayTheme.equationTextStyle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.right,
             ),
             Text(
               displayText ?? '',
-              // style: Theme.of(context).textTheme.display2.copyWith(color: Colors.white70),
               style: appTheme.displayTheme.displayTextStyle,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

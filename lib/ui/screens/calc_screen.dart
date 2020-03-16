@@ -19,7 +19,7 @@ class _CalcScreenState extends State<CalcScreen> {
     return Scaffold(
       backgroundColor: AppTheme.of(context).backgroundColor,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           StreamBuilder<CalcState>(
             stream: _bloc.outState,
@@ -40,10 +40,12 @@ class _CalcScreenState extends State<CalcScreen> {
 
   @override
   void didChangeDependencies() {
+    final Size screenSize = MediaQuery.of(context).size;
+    final EdgeInsets padding = MediaQuery.of(context).padding;
+    final double containerHeight = screenSize.height - padding.top;
+    final double buttonSize = screenSize.width / 4;
+    _displayHeight = containerHeight - (buttonSize * 5.0);
     _bloc = CalcBloc(CalcState('0', ''));
-    final Size screen = MediaQuery.of(context).size;
-    final double buttonSize = screen.width / 4.0;
-    _displayHeight = screen.height - (buttonSize * 5.0);
     super.didChangeDependencies();
   }
 

@@ -39,6 +39,8 @@ class CalcController {
   String get equationDisplay {
     if (_item.isOperator) {
       return '$_equationDisplay${_item.valueAsText}';
+    } else if (_item.isResult) {
+      return '$_equationDisplay = ';
     } else {
       return _equationDisplay;
     }

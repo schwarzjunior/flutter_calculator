@@ -7,7 +7,7 @@ const CalcTheme lightTheme = const CalcTheme(
     displayColor: const Color(0xffdbdbdb),
     displayTextStyle: const TextStyle(
       color: const Color(0xff455a64),
-      fontSize: 34.0,
+      fontSize: 46.0,
       fontWeight: FontWeight.w800,
       fontFamily: 'Roboto',
       textBaseline: TextBaseline.alphabetic,
@@ -15,7 +15,7 @@ const CalcTheme lightTheme = const CalcTheme(
     ),
     equationTextStyle: const TextStyle(
       color: const Color(0x99455a64),
-      fontSize: 22.0,
+      fontSize: 20.0,
       fontWeight: FontWeight.w800,
       fontFamily: 'Roboto',
       textBaseline: TextBaseline.alphabetic,
@@ -50,7 +50,7 @@ const CalcTheme darkTheme = const CalcTheme(
     displayColor: const Color(0xff2d2d2d),
     displayTextStyle: const TextStyle(
       color: const Color(0xffffffff),
-      fontSize: 34.0,
+      fontSize: 46.0,
       fontWeight: FontWeight.w800,
       fontFamily: 'Roboto',
       textBaseline: TextBaseline.alphabetic,
@@ -58,7 +58,7 @@ const CalcTheme darkTheme = const CalcTheme(
     ),
     equationTextStyle: const TextStyle(
       color: const Color(0x99ffffff),
-      fontSize: 22.0,
+      fontSize: 20.0,
       fontWeight: FontWeight.w800,
       fontFamily: 'Roboto',
       textBaseline: TextBaseline.alphabetic,
