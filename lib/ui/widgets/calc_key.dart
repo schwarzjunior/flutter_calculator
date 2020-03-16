@@ -5,20 +5,25 @@ import 'package:flutter_calculator_3/ui/widgets/theme/app_theme.dart';
 typedef CalcKeyCallback = void Function(CalcKeyData);
 
 class CalcKey extends StatelessWidget {
-  const CalcKey({Key key, this.keyData, this.onPressed, this.flex = 1}) : super(key: key);
+  const CalcKey({Key key, this.keyData, this.onPressed, this.size, this.flex = 1}) : super(key: key);
 
   final CalcKeyData keyData;
   final CalcKeyCallback onPressed;
+  final Size size;
   final int flex;
 
   @override
   Widget build(BuildContext context) {
     final AppTheme appTheme = AppTheme.of(context);
-    final double size = MediaQuery.of(context).size.width / 4.0;
+    // final double size = MediaQuery.of(context).size.width / 4.0;
+    // final double size = MediaQuery.of(context).size.width / 5.0;
+    // final Size size = MediaQuery.of(context).size;
 
     return Container(
-      width: size * flex,
-      height: size,
+      // width: size.width / 4 * flex,
+      // height: size.width / 5,
+      width: size.width * flex,
+      height: size.height,
       child: FlatButton(
         // color: const Color(0xff2d2d2d),
         // color: appTheme.keyTheme.numberColor,

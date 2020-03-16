@@ -3,9 +3,14 @@ import 'package:flutter_calculator_3/blocs/calc_bloc.dart';
 import 'package:flutter_calculator_3/blocs/calc_state.dart';
 import 'package:flutter_calculator_3/ui/widgets/calc_display.dart';
 import 'package:flutter_calculator_3/ui/widgets/calc_key_pad.dart';
+import 'package:flutter_calculator_3/ui/widgets/calc_key_pad_scientific.dart';
 import 'package:flutter_calculator_3/ui/widgets/theme/app_theme.dart';
 
 class CalcScreen extends StatefulWidget {
+  const CalcScreen({Key key, this.simple = true}) : super(key: key);
+
+  final bool simple;
+
   @override
   _CalcScreenState createState() => _CalcScreenState();
 }
@@ -32,7 +37,7 @@ class _CalcScreenState extends State<CalcScreen> {
               );
             },
           ),
-          CalcKeyPad(bloc: _bloc),
+          widget.simple ? CalcKeyPad(bloc: _bloc) : CalcKeyPadScientific(bloc: _bloc),
         ],
       ),
     );
@@ -43,8 +48,9 @@ class _CalcScreenState extends State<CalcScreen> {
     final Size screenSize = MediaQuery.of(context).size;
     final EdgeInsets padding = MediaQuery.of(context).padding;
     final double containerHeight = screenSize.height - padding.top;
-    final double buttonSize = screenSize.width / 4;
-    _displayHeight = containerHeight - (buttonSize * 5.0);
+    // TODO: _displayHeight deve ser fixo, e buttonSize se adaptar!
+    final double buttonSize = screenSize.width / (widget.simple ? 4 : 5);
+    _displayHeight = containerHeight - (buttonSize * (widget.simple ? 5 : 6));
     _bloc = CalcBloc(CalcState('0', ''));
     super.didChangeDependencies();
   }

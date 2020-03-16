@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
           final ThemeMode themeMode = (MediaQuery.of(context).platformBrightness == Brightness.light)
               ? ThemeMode.light
               : ThemeMode.dark;
-          return AppTheme(themeMode: themeMode, child: CalcScreen());
+          return AppTheme(themeMode: themeMode, child: CalcScreen(simple: true));
         },
       ),
     );

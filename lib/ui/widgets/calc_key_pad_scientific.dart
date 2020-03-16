@@ -3,8 +3,8 @@ import 'package:flutter_calculator_3/blocs/calc_bloc.dart';
 import 'package:flutter_calculator_3/models/calc_key_data.dart';
 import 'package:flutter_calculator_3/ui/widgets/calc_key.dart';
 
-class CalcKeyPad extends StatelessWidget {
-  const CalcKeyPad({Key key, this.bloc}) : super(key: key);
+class CalcKeyPadScientific extends StatelessWidget {
+  const CalcKeyPadScientific({Key key, this.bloc}) : super(key: key);
 
   final CalcBloc bloc;
 
@@ -13,15 +13,22 @@ class CalcKeyPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    _size ??= Size(size.width / 4, size.width / 4);
+    _size ??= Size(size.width / 4, size.width / 5);
 
     return Column(
       children: <Widget>[
         Row(
           children: <Widget>[
-            _makeKey(CalcKeyData.clear),
             _makeKey(CalcKeyData.percent),
+            _makeKey(CalcKeyData.clear, 2),
             _makeKey(CalcKeyData.undo),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            _makeKey(CalcKeyData.sign),
+            _makeKey(CalcKeyData.openParentheses),
+            _makeKey(CalcKeyData.closeParentheses),
             _makeKey(CalcKeyData.divide),
           ],
         ),
@@ -51,9 +58,8 @@ class CalcKeyPad extends StatelessWidget {
         ),
         Row(
           children: <Widget>[
-            _makeKey(CalcKeyData.sign),
-            _makeKey(CalcKeyData.zero),
             _makeKey(CalcKeyData.decimal),
+            _makeKey(CalcKeyData.zero, 2),
             _makeKey(CalcKeyData.equals),
           ],
         ),

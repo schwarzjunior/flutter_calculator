@@ -35,10 +35,13 @@ class CalcKeyData {
   static const CalcKeyData sign = const CalcKeyData._(17, '±', CalcKeyType.FUNCTION);
   static const CalcKeyData percent = const CalcKeyData._(18, '%', CalcKeyType.FUNCTION);
   static const CalcKeyData undo = const CalcKeyData._(19, '<', CalcKeyType.FUNCTION);
+  static const CalcKeyData openParentheses = const CalcKeyData._(20, '(', CalcKeyType.FUNCTION);
+  static const CalcKeyData closeParentheses = const CalcKeyData._(21, ')', CalcKeyType.FUNCTION);
 
   static const List<CalcKeyData> values = const <CalcKeyData>[
     zero, one, two, three, four, five, six, seven, eight, nine, decimal,
-    add, subtract, multiply, divide, equals, clear, sign, percent, undo
+    add, subtract, multiply, divide, equals, clear, sign, percent, undo,
+    openParentheses, closeParentheses
   ];
 
   @override
