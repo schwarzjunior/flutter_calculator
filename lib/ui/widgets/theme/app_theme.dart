@@ -10,6 +10,7 @@ class AppTheme extends InheritedWidget {
     this.backgroundColor,
     this.displayTheme,
     this.keyTheme,
+    this.drawerTheme,
   })  : assert(themeMode != null),
         assert(child != null),
         super(key: key, child: child);
@@ -23,6 +24,7 @@ class AppTheme extends InheritedWidget {
       backgroundColor: calcTheme.backgroundColor,
       displayTheme: calcTheme.displayTheme,
       keyTheme: calcTheme.keyTheme,
+      drawerTheme: calcTheme.drawerTheme,
     );
   }
 
@@ -30,6 +32,7 @@ class AppTheme extends InheritedWidget {
   final Color backgroundColor;
   final CalcDisplayTheme displayTheme;
   final CalcKeyTheme keyTheme;
+  final CalcDrawerTheme drawerTheme;
 
   static AppTheme of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<AppTheme>();
 

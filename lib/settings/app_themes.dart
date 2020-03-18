@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calculator_3/models/calc_theme.dart';
 
+///
+/// Light [CalcTheme].
+///
 const CalcTheme lightTheme = const CalcTheme(
   backgroundColor: const Color(0xff6b7389),
   displayTheme: const CalcDisplayTheme(
@@ -42,8 +45,49 @@ const CalcTheme lightTheme = const CalcTheme(
       decoration: TextDecoration.none,
     ),
   ),
+  drawerTheme: const CalcDrawerTheme(
+    // backgroundColor: const Color(0xffb0c1e5),
+    backgroundColor: const Color(0xffb9e5e5),
+    headerColor: const Color(0xffdbdbdb),
+    headerTextStyle: const TextStyle(
+      color: const Color(0xff455a64),
+      fontSize: 24.0,
+      fontWeight: FontWeight.w500,
+      fontFamily: 'Roboto',
+      textBaseline: TextBaseline.alphabetic,
+      decoration: TextDecoration.none,
+    ),
+    itemTextStyle: const TextStyle(
+      color: const Color(0xff455a64),
+      fontSize: 16.0,
+      fontWeight: FontWeight.w800,
+      fontFamily: 'Roboto',
+      textBaseline: TextBaseline.alphabetic,
+      decoration: TextDecoration.none,
+    ),
+    aboutTextStyle: const TextStyle(
+      color: const Color(0x99455a64),
+      fontSize: 14.0,
+      fontWeight: FontWeight.w800,
+      fontFamily: 'Roboto',
+      textBaseline: TextBaseline.alphabetic,
+      decoration: TextDecoration.none,
+    ),
+    aboutDialogTextStyle: const TextStyle(
+      color: const Color(0xdd000000),
+      fontSize: 14.0,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Roboto',
+      textBaseline: TextBaseline.alphabetic,
+      decoration: TextDecoration.none,
+    ),
+    aboutIconColor: const Color(0x99455a64),
+  ),
 );
 
+///
+/// Dark [CalcTheme].
+///
 const CalcTheme darkTheme = const CalcTheme(
   backgroundColor: const Color(0xff565e70),
   displayTheme: const CalcDisplayTheme(
@@ -84,5 +128,42 @@ const CalcTheme darkTheme = const CalcTheme(
       textBaseline: TextBaseline.alphabetic,
       decoration: TextDecoration.none,
     ),
+  ),
+  drawerTheme: const CalcDrawerTheme(
+    backgroundColor: const Color(0xff565e70),
+    headerColor: const Color(0xff2d2d2d),
+    headerTextStyle: const TextStyle(
+      color: const Color(0x99ffffff),
+      fontSize: 24.0,
+      fontWeight: FontWeight.w500,
+      fontFamily: 'Roboto',
+      textBaseline: TextBaseline.alphabetic,
+      decoration: TextDecoration.none,
+    ),
+    itemTextStyle: const TextStyle(
+      color: const Color(0xffffffff),
+      fontSize: 16.0,
+      fontWeight: FontWeight.w800,
+      fontFamily: 'Roboto',
+      textBaseline: TextBaseline.alphabetic,
+      decoration: TextDecoration.none,
+    ),
+    aboutTextStyle: const TextStyle(
+      color: const Color(0x99ffffff),
+      fontSize: 14.0,
+      fontWeight: FontWeight.w800,
+      fontFamily: 'Roboto',
+      textBaseline: TextBaseline.alphabetic,
+      decoration: TextDecoration.none,
+    ),
+    aboutDialogTextStyle: const TextStyle(
+      color: const Color(0xdd000000),
+      fontSize: 13.0,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Roboto',
+      textBaseline: TextBaseline.alphabetic,
+      decoration: TextDecoration.none,
+    ),
+    aboutIconColor: const Color(0x99ffffff),
   ),
 );
